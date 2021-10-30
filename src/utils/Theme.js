@@ -4,7 +4,7 @@ import {
   withDefaultVariant,
 } from '@chakra-ui/react';
 
-import { ORGANGE, TEAL, TEAL_DARK, TEAL_SECONDARY } from './Colors';
+import { ORGANGE, TEAL, TEAL_DARK, TEAL_SECONDARY, TEAL_GREY } from './Colors';
 
 const theme = extendTheme(
   {
@@ -14,6 +14,7 @@ const theme = extendTheme(
         secondary: ORGANGE,
         primary_dark: TEAL_DARK,
         primary_secondary: TEAL_SECONDARY,
+        primary_grey: TEAL_GREY,
       },
     },
     styles: {

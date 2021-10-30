@@ -1,34 +1,44 @@
-import { Box, Image, AspectRatio, Text, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  Image,
+  AspectRatio,
+  Text,
+  Stack,
+  Divider,
+} from '@chakra-ui/react';
 
-const ContentPreview = () => {
-  const contentDetails = {
-    imageUrl: 'https://bit.ly/2Z4KKcF',
-    imageAlt: 'random-image',
-    name: 'Mindsets to Lead Business Transformation',
-    categories: [
-      {
-        name: 'Strategic Thinking',
-      },
-    ],
-    experts: [
-      {
-        firstName: 'Sonia',
-        lastName: 'Gupta',
-        title: 'MD, Growth & Innovation',
-        company: 'Accenture',
-      },
-    ],
+import noImage from '../assets/images/no-image.png';
+
+const getImageUrl = (url) => {
+  if (url) {
+    return url.replace('tigerhall.io/', 'tigerhall.io/resize/250x/');
+  }
+
+  return noImage;
+};
+
+const ContentPreview = ({ contentDetails }) => {
+  const _renderCategories = (categories) => {
+    return categories.map((c, index) => {
+      if (!index) {
+        return c.name;
+      }
+
+      return `, ${c.name}`;
+    });
   };
 
   return (
     <Box borderRadius="md" overflow="hidden" bg="white">
       <AspectRatio ratio={2 / 1}>
         <Image
-          src={contentDetails.imageUrl}
+          src={getImageUrl(contentDetails.image?.uri)}
           alt={contentDetails.imageAlt}
           objectFit="cover"
         />
       </AspectRatio>
+
+      <Divider />
 
       <Stack p={4} spacing={1}>
         <Text
@@ -38,7 +48,7 @@ const ContentPreview = () => {
           fontSize="sm"
           noOfLines={1}
         >
-          {contentDetails.categories.map((value) => value.name)}
+          {_renderCategories(contentDetails.categories)}
         </Text>
 
         <Box
