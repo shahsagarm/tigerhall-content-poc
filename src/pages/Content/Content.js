@@ -6,7 +6,7 @@ import ContentPreview from '../../components/ContentPreview';
 import ContentPreviewSkeleton from '../../components/ContentPreviewSkeleton';
 import Alert from '../../components/Alert';
 
-const Content = () => {
+const Content = ({ searchTerm, filtering }) => {
   const contentColSpan = useBreakpointValue({ base: 4, md: 1 });
   const { loading, error, data } = useQuery(GET_CONTENT_CARDS);
 
@@ -17,7 +17,7 @@ const Content = () => {
     );
   }
 
-  if (loading) {
+  if (loading || filtering) {
     return (
       <>
         <SimpleGrid columns={4} columnGap={8} rowGap={8} w="full">
@@ -37,7 +37,15 @@ const Content = () => {
     contentCards: { edges },
   } = data;
 
-  if (!edges || !edges.length) {
+  let filteredData = edges || [];
+
+  if (searchTerm) {
+    filteredData = edges.filter((content) =>
+      content.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  if (!filteredData || !filteredData.length) {
     const alertTitle = 'No data found!';
     return <Alert type="warning" alertTitle={alertTitle} />;
   }
@@ -45,7 +53,7 @@ const Content = () => {
   return (
     <>
       <SimpleGrid columns={4} columnGap={8} rowGap={8} w="full">
-        {edges.map((edge, index) => (
+        {filteredData.map((edge, index) => (
           <GridItem colSpan={contentColSpan} key={index}>
             <ContentPreview contentDetails={edge} />
           </GridItem>

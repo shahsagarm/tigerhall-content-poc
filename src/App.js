@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   ChakraProvider,
   Container,
@@ -8,19 +9,38 @@ import {
 
 import theme from './utils/Theme';
 import Content from './pages/Content/Content';
+import useDebounce from './hooks/useDebounce';
 
-function App() {
+const App = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filtering, setFiltering] = useState(false);
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  const onValueChange = (e) => {
+    setFiltering(true);
+    setSearchTerm(e.target.value);
+  };
+
+  useEffect(() => {
+    setFiltering(false);
+  }, [debouncedSearchTerm]);
+
   return (
     <ChakraProvider theme={theme}>
       <Container maxW="container.xl" p={10}>
         <FormControl mb={6} maxW="sm">
           <FormLabel color="white">Search</FormLabel>
-          <Input placeholder="Type any keyword" color="white" />
+          <Input
+            placeholder="Type any keyword"
+            color="white"
+            value={searchTerm}
+            onChange={onValueChange}
+          />
         </FormControl>
-        <Content />
+        <Content searchTerm={debouncedSearchTerm} filtering={filtering} />
       </Container>
     </ChakraProvider>
   );
-}
+};
 
 export default App;
