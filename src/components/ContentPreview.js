@@ -29,7 +29,12 @@ const ContentPreview = ({ contentDetails }) => {
   };
 
   return (
-    <Box borderRadius="md" overflow="hidden" bg="white">
+    <Box
+      borderRadius="md"
+      overflow="hidden"
+      bg="white"
+      className="content-preview"
+    >
       <AspectRatio ratio={2 / 1}>
         <Image src={getImageUrl(contentDetails.image?.uri)} objectFit="cover" />
       </AspectRatio>

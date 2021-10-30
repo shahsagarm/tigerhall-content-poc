@@ -27,7 +27,7 @@ const App = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Container maxW="container.xl" p={10}>
+      <Container maxW="container.xl" p={10} id="container">
         <FormControl mb={6} maxW="sm">
           <FormLabel color="white">Search</FormLabel>
           <Input
